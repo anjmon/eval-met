@@ -1,0 +1,3 @@
+y_true: y_true.csv
+y_pred: y_pred.csv
+metric: accuracy
