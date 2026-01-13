@@ -30,3 +30,8 @@ METRICS = {
     "mae": mae,
     "mape": mape,
 }
+
+TASKS_METRICS_MAP = {
+    "regression": ["mse", "rmse", "mae", "mape"],
+    "classification": ["accuracy"],
+}

@@ -1,7 +1,7 @@
 import numpy as np
 import yaml
 
-from metrics import METRICS
+from metrics import METRICS, TASKS_METRICS_MAP
 
 
 def load_array(path: str) -> np.ndarray:
@@ -21,13 +21,23 @@ def main():
     assert len(y_true) == len(y_pred), (
         "The ground truth and the predicted arrays must be of the same length!"
     )
+    task = cfg["task"]
+    metrics = cfg["metrics"]
 
-    metric = cfg["metric"]
-    if metric not in METRICS:
-        raise ValueError(f"Unsupported metric: {metric}")
+    for metric in metrics:
+        if metric not in TASKS_METRICS_MAP[task]:
+            print(
+                f"{metric} is not a valid metric for {task}. \n Please use on of the following metrics - {TASKS_METRICS_MAP[task]}"
+            )
+            continue
+        if metric not in METRICS:
+            print(f"Unsupported metric: {metric}")
+            continue
 
-    score = METRICS[metric](y_true, y_pred)
-    print({metric: float(score)})
+        print(f"Calculating {metric} for task {task}")
+
+        score = METRICS[metric](y_true, y_pred)
+        print({metric: float(score)})
 
 
 if __name__ == "__main__":
